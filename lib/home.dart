@@ -1,7 +1,6 @@
 import 'package:example/cbti_home.dart';
 import 'package:example/functions.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_native_splash/flutter_native_splash.dart';
 
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
@@ -13,15 +12,22 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   @override
   Widget build(BuildContext context) {
-    FlutterNativeSplash.remove();
     TimeOfDay? time;
 
     return Scaffold(
       backgroundColor: Color(0xFF6D7DB2),
-      appBar: AppBar(backgroundColor: Color(0xFF6D7DB2)),
+      appBar: AppBar(
+        backgroundColor: Color(0xFF6D7DB2),
+        //botão da appbar para dar refresh do gráfico
+        actionsPadding: EdgeInsets.only(right: 15),
+        actions: [
+          IconButton(
+            onPressed: () {},
+            icon: Icon(Icons.refresh),
+          )
+        ],
+      ),
       body: Center(
-        // Center is a layout widget. It takes a single child and positions it
-        // in the middle of the parent.
         child: Column(
           mainAxisAlignment: MainAxisAlignment.start,
           children: [
