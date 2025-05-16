@@ -1,0 +1,163 @@
+import 'package:example/cbti_home.dart';
+import 'package:example/functions.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_native_splash/flutter_native_splash.dart';
+
+class HomePage extends StatefulWidget {
+  const HomePage({super.key});
+
+  @override
+  State<HomePage> createState() => _HomePageState();
+}
+
+class _HomePageState extends State<HomePage> {
+  @override
+  Widget build(BuildContext context) {
+    FlutterNativeSplash.remove();
+    TimeOfDay? time;
+
+    return Scaffold(
+      backgroundColor: Color(0xFF6D7DB2),
+      appBar: AppBar(backgroundColor: Color(0xFF6D7DB2)),
+      body: Center(
+        // Center is a layout widget. It takes a single child and positions it
+        // in the middle of the parent.
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.start,
+          children: [
+            //Gráfico
+            Container(
+              height: 210,
+              width: 300,
+              decoration: BoxDecoration(color: Color(0xFFD3D1E8)),
+              margin: EdgeInsets.only(top: 80, bottom: 120),
+              child: Center(child: Text("Gráfico")),
+            ),
+
+            Row(
+
+
+              mainAxisAlignment: MainAxisAlignment.center,
+              children: [
+                //Primeiro botão
+                GestureDetector(
+                  onTap: () async {
+                    var a = await select_time(context);
+
+                    setState(() {
+                      time = a;
+                      print(time!.hour);
+                      print(time!.minute);
+                      
+                    });
+                  },
+
+                  child: Container(
+                    margin: EdgeInsets.only(right: 15),
+                    height: 155,
+                    width: 135,
+                    padding: EdgeInsets.only(top: 10),
+                    decoration: BoxDecoration(
+                      color: Color(0xFFD3D1E8),
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Set",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                          ),
+                        ),
+                        Text(
+                          "Alarm",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                          ),
+                        ),
+                        Container(height: 20),
+                        Icon(Icons.alarm_outlined, size: 40),
+                      ],
+                    ),
+                  ),
+                ),
+
+                //Segundo botão
+                GestureDetector(
+                  onTap: () {
+                    Navigator.push(
+                      context,
+                      MaterialPageRoute(builder: (context) => Home_cbti()),
+                    );
+                  },
+
+                  child: Container(
+                    margin: EdgeInsets.only(left: 15),
+                    height: 155,
+                    width: 135,
+                    padding: EdgeInsets.only(top: 10),
+                    decoration: BoxDecoration(
+                      color: Color(0xFFD3D1E8),
+                      borderRadius: BorderRadius.circular(30),
+                    ),
+                    child: Column(
+                      mainAxisAlignment: MainAxisAlignment.start,
+                      children: [
+                        Text(
+                          "Learn",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                          ),
+                        ),
+                        Text(
+                          "CBT-I",
+                          style: TextStyle(
+                            fontWeight: FontWeight.bold,
+                            fontSize: 20,
+                          ),
+                        ),
+                        Container(height: 20),
+                        Icon(Icons.book_outlined, size: 40),
+                      ],
+                    ),
+                  ),
+                ),
+              ],
+            ),
+
+            GestureDetector(
+              onTap: () {},
+              child: Container(
+                width: 300,
+                height: 75,
+                padding: EdgeInsets.only(left: 30, right: 30),
+                margin: EdgeInsets.only(top: 20),
+                decoration: BoxDecoration(
+                  color: Color(0xFFD3D1E8),
+                  borderRadius: BorderRadius.circular(30),
+                ),
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                  children: [
+                    Text(
+                      "Sleep Diary",
+                      style: TextStyle(
+                        fontWeight: FontWeight.bold,
+                        fontSize: 20,
+                      ),
+                    ),
+                    Icon(Icons.dark_mode_outlined, size: 40),
+                  ],
+                ),
+              ),
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+}
