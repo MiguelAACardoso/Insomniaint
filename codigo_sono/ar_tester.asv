@@ -1,5 +1,5 @@
 % --- Dados de exemplo (podes substituir pelos teus)
-x = [74, 76, 78];
+x = [59, 60, 65, 78, 79, 88, 64, 89, 73, 80];
 
 % --- Ordem do modelo AR
 order = 2;

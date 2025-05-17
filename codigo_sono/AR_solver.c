@@ -1,6 +1,9 @@
 
 #include <stdio.h>
 #include <math.h>
+
+
+
 /********************************************************
 /
 / AR(2)
@@ -22,7 +25,7 @@ void BurgCoef(float* bpm_values, int size_bpm){
      for(i = 0; i<size_bpm; i++){
     	fe[i] = bpm_values[i];
     	be[i] = bpm_values[i];
-    	printf("i = %d, f = %f, b = %f\n\n", i , fe[i], be[i]);
+
      }
     
      //cálculo k1
@@ -54,13 +57,21 @@ void BurgCoef(float* bpm_values, int size_bpm){
     	den += fe[i]*fe[i] + be[i-2]*be[i-2];
      }
      
-     k2 = -2*num/den;
-     
+     k2 = -2*num/den;  
      k1 = k1 + k2*k1;
      
+     k1 = -k1;
+     k2 = -k2;
+     //calcular erro
+     placeholder = 0;
+     for(i = 2; i < size_bpm; i++){
+    	placeholder += (bpm_values[i] - (k1*bpm_values[i-1] + k2*bpm_values[i-2]))*(bpm_values[i] - (k1*bpm_values[i-1] + k2*bpm_values[i-2]));
+     }
+     
+     placeholder = placeholder/(size_bpm-2);
+     
 
-
-     printf("coeficieintes: %f, %f\n", k1, k2);
+     printf("coeficieintes: %f, %f erro: %f\n", k1, k2, placeholder);
 
      return;
 
