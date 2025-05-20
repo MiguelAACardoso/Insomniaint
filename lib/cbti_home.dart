@@ -21,9 +21,9 @@ class _Home_cbtiState extends State<Home_cbti> {
           children: [
 
             Container(
-              width: 325,
-              height: 300,
-              margin: EdgeInsets.only(bottom: 20, top: 60),
+              width: 300,
+              height: 250,
+              margin: EdgeInsets.only(bottom: 50, top: 50),
               padding: EdgeInsets.only(top: 20, bottom: 20, left: 20, right: 20),
               decoration: BoxDecoration(
                 color: Color(0xFFD3D1E8),

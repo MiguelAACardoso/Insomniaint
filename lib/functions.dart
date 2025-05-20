@@ -17,17 +17,19 @@ Future<TimeOfDay?> select_time(dynamic context) async {
 }
 
 Future<dynamic> send() async {
-  String base_url = 'http://Insomniaint.pythonanywhere.com/sent';
+  String base_url = 'http://Insomniaint.pythonanywhere.com/get';
 
   var url = Uri.parse(base_url);
 
-  var ret = await http.Client().post(url);
+  var msg = jsonEncode("off");
+  var ret = await http.Client().post(url, body: msg);
 
-  var resposta = jsonDecode(ret.body);
+  /*var resposta = jsonDecode(ret.body);
   print("asdfsgdhfjgkhlj");
-  var x = base64Decode(resposta['imagem']);
+  var x = base64Decode(resposta['imagem']);*/
 
-  return x;
+  print(ret.body);
+  return ret;
 }
 
 List<FlSpot> gera_lista_pontos(List<dynamic> xpoints, List<dynamic> ypoints) {
