@@ -9,7 +9,7 @@
 / AR(2)
 / Função verificada pelo cálculo matlab!
 /
-/*******************************************************/
+*******************************************************/
 
 void BurgCoef(float* bpm_values, int size_bpm, float* coefs){
 
@@ -85,6 +85,50 @@ void BurgCoef(float* bpm_values, int size_bpm, float* coefs){
 
      return;
 }
+
+
+float calcular_distancia_adaptativa(float* coefs, float* centro){
+    float k1_p = 1, k2_p =1, e_p = 1, bpm_p = 1, acc_p = 1;
+    float distancia;
+    
+    //mudar estes valores -> ir ajustando!!
+    if(coefs[2] < 2){
+    	k1_p= 0.5;
+    	k2_p = 0.5;
+    	e_p = 2;
+    }
+    //bpm altos, alta aceleração -> probably acordado, dar apenas valor a isso!
+    if(coefs[3] > 80 || coefs[4] > 1){
+        k1_p = 0;
+        k2_p = 0;
+        e_p = 0;
+        acc_p = 0;
+    
+    }
+    
+    if(coefs[4] < 0.05){
+    	bpm_p = 2;
+    	acc_p = 0.5;
+    }
+    
+    distancia = 0;
+   
+    distancia += k1_p * (coefs[0] - centro[0])*(coefs[0] - centro[0]); // k1
+    distancia += k2_p * (coefs[1] - centro[1])*(coefs[1] - centro[1]); // k2
+    distancia += e_p * (coefs[2] - centro[2])*(coefs[2] - centro[2]); // erro
+    distancia += bpm_p * (coefs[3] - centro[3])*(coefs[3] - centro[3]); // bpm
+    distancia += acc_p * (coefs[4] - centro[4])*(coefs[4] - centro[4]); // acc
+    
+    printf("cluster_bpm: %f, coefs_bpm: %f, dist: %f\n", centro[3], coefs[3], distancia);
+
+   
+    return sqrt(distancia);
+
+
+
+}
+
+
 
 /*
 void bpm_media(float* bpm_values, int size_bpm, float* coefs){

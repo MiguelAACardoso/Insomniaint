@@ -148,6 +148,8 @@ float calcular_distancia_adaptativa(float* coefs, float* centro){
     distancia += e_p * (coefs[2] - centro[2])*(coefs[2] - centro[2]); // erro
     distancia += bpm_p * (coefs[3] - centro[3])*(coefs[3] - centro[3]); // bpm
     distancia += acc_p * (coefs[4] - centro[4])*(coefs[4] - centro[4]); // acc
+    
+    printf("cluster_bpm: %f, coefs_bpm: %f, dist: %f\n", centro[3], coefs[3], distancia);
 
    
     return sqrt(distancia);
