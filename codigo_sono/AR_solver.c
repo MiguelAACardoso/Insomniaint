@@ -79,13 +79,13 @@ void BurgCoef(float* bpm_values, int size_bpm){
 
 
 
-
+/*
 int main(int argc, char *argv[]){
     float vetor[10] = {70, 71, 70, 68, 67, 69, 70, 69, 70, 70};
     printf("tamanho vetor = %ld\n", sizeof(vetor));
     BurgCoef(vetor, 10);
 
     return 0;
-}
+}*/
 
 

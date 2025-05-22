@@ -66,7 +66,7 @@ int main(int argc, char *argv[]){
     
     
     //só para testar
-    //vetor com a1, a2 e accelaração
+    //vetor: a1, a2, erro, media_bpm, accelaraçao
     float vetor[3] = {1.5, 0.76, 10};
     
 
