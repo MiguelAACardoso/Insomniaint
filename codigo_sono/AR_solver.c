@@ -11,7 +11,7 @@
 /
 /*******************************************************/
 
-void BurgCoef(float* bpm_values, int size_bpm){
+void BurgCoef(float* bpm_values, int size_bpm, float* coefs){
 
      //vetor de erros para frente e para trás
      float fe[size_bpm];
@@ -69,19 +69,39 @@ void BurgCoef(float* bpm_values, int size_bpm){
      }
      
      placeholder = placeholder/(size_bpm-2);
+     coefs[0] = k1;
+     coefs[1] = k2;
+     coefs[2] = placeholder;
      
-
-     printf("coeficieintes: %f, %f erro: %f\n", k1, k2, placeholder);
+     
+    i=0;
+    placeholder = 0;
+    for(i=0; i<size_bpm; i++){
+    	placeholder += bpm_values[i];
+    }
+    placeholder = placeholder/size_bpm;
+    coefs[3]= placeholder;
+    coefs[4] = bpm_values[10];
 
      return;
-
 }
 
+/*
+void bpm_media(float* bpm_values, int size_bpm, float* coefs){
+    int i=0;
+    int media = 0;
+    for(i=0; i<size_bpm; i++){
+    	media += bpm_values[i];
+    }
+    media = media/size_bpm;
+    coefs[3]= media;
+    return;
+}*/
 
 
 /*
 int main(int argc, char *argv[]){
-    float vetor[10] = {70, 71, 70, 68, 67, 69, 70, 69, 70, 70};
+    float vetor[10] = {70, 71, 72, 72, 73, 73, 74, 75, 75, 75};
     printf("tamanho vetor = %ld\n", sizeof(vetor));
     BurgCoef(vetor, 10);
 
