@@ -1,3 +1,6 @@
+import 'package:example/cbt-i_benefits.dart';
+import 'package:example/sleep_101.dart';
+import 'package:example/what_is_insomnia.dart';
 import 'package:flutter/material.dart';
 
 class Home_cbti extends StatefulWidget {
@@ -19,20 +22,23 @@ class _Home_cbtiState extends State<Home_cbti> {
           mainAxisAlignment: MainAxisAlignment.start,
 
           children: [
-
             Container(
               width: 300,
-              height: 260,
+              height: 270,
               margin: EdgeInsets.only(bottom: 30, top: 30),
-              padding: EdgeInsets.only(top: 20, bottom: 20, left: 20, right: 20),
+              padding: EdgeInsets.only(
+                top: 20,
+                bottom: 20,
+                left: 20,
+                right: 20,
+              ),
               decoration: BoxDecoration(
                 color: Color(0xFFD3D1E8),
-                borderRadius: BorderRadius.circular(20)
+                borderRadius: BorderRadius.circular(20),
               ),
               child: Column(
                 crossAxisAlignment: CrossAxisAlignment.start,
                 children: [
-
                   Center(
                     child: Container(
                       margin: EdgeInsets.only(bottom: 16),
@@ -40,24 +46,31 @@ class _Home_cbtiState extends State<Home_cbti> {
                         "What is CBT-I?",
                         style: TextStyle(
                           fontSize: 20,
-                          fontWeight: FontWeight.bold
+                          fontWeight: FontWeight.bold,
                         ),
                       ),
                     ),
                   ),
 
                   Text(
-                  '''CBT-i - Cognitive Behavioral Therapy for Insomnia - is a non-medication treatment of insomnia that is based on scientific knowledge about sleep. 
-                  The goals of CBT-i are to help you fall asleep, stay asleep, and improve your daytime functioning as a result of better sleep at night''',
-                  textAlign: TextAlign.justify,),
+                    '''CBT-i - Cognitive Behavioral Therapy for Insomnia - is a non-medication treatment of insomnia that is based on scientific knowledge about sleep.\n 
+                  The goals of CBT-i are to help you fall asleep, stay asleep, and improve your daytime functioning as a result of better sleep at night.''',
+                    textAlign: TextAlign.justify,
+                  ),
                 ],
               ),
             ),
 
             //Botao 1
             MaterialButton(
-              onPressed: () {},
-              child:  Container(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Insomnia())
+                );
+
+              },
+              child: Container(
                 width: 300,
                 height: 75,
                 padding: EdgeInsets.only(left: 30, right: 30),
@@ -81,12 +94,18 @@ class _Home_cbtiState extends State<Home_cbti> {
                 ),
               ),
             ),
-            
 
             //Botao 2
             MaterialButton(
-              onPressed: () {},
-              child:  Container(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Sleep101())
+                );
+              },
+
+              //Aparência do botão
+              child: Container(
                 width: 300,
                 height: 75,
                 padding: EdgeInsets.only(left: 30, right: 30),
@@ -113,8 +132,14 @@ class _Home_cbtiState extends State<Home_cbti> {
 
             //Botao 3
             MaterialButton(
-              onPressed: () {},
-              child:  Container(
+              onPressed: () {
+                Navigator.push(
+                  context,
+                  MaterialPageRoute(builder: (context) => Benefits())
+                );
+
+              },
+              child: Container(
                 width: 300,
                 height: 75,
                 padding: EdgeInsets.only(left: 30, right: 30),

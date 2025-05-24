@@ -1,3 +1,5 @@
+import 'dart:async';
+
 import 'package:example/cbti_home.dart';
 import 'package:example/functions.dart';
 import 'package:example/graph.dart';
@@ -35,6 +37,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     _loadVector();
+    
   }
 
   //vai buscar os valores da outra sessão
@@ -83,6 +86,14 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
+  void get_api() {
+    Timer.periodic(Duration(seconds: 5), (timer) {
+      setState(() {
+        print("aaaa");
+      });
+    });
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -99,7 +110,6 @@ class _HomePageState extends State<HomePage> {
             onPressed: () async {
               //função de refresh
               //send();
-
               //atualiza os dados
               setState(() {});
 
@@ -204,7 +214,6 @@ class _HomePageState extends State<HomePage> {
                     time = a;
                     if (time != null) {
                       post_time(time!);
-                      print(time!);
                     }
                   });
                 },

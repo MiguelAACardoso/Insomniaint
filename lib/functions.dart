@@ -50,9 +50,37 @@ Future<dynamic> post_time(TimeOfDay time) async {
 
   var url = Uri.parse(base_url);
 
-  var data = {"hora": time.hour, "minuto": time.minute};
-  var msg = jsonEncode(data);
+  var msg = jsonEncode("${time.hour} ${time.minute}");
 
   var ret = await http.Client().post(url, body: msg);
 
+  //print(ret.body);
+}
+
+//já não deve ser preciso mas vou deixar aqui just in case
+void Check_timer(mod, TimeOfDay time) async {
+  //tempo atual
+  TimeOfDay tempo_atual = TimeOfDay.now();
+
+  //se já se tiver selecionado um valor
+  if (mod == 0) {
+    return;
+  }
+
+  if (mod == 1) {
+    if (time.hour <= tempo_atual.hour) {
+      int tmp = time.minute - tempo_atual.minute;
+
+      if (tmp <= 30) {
+        String base_url = 'http://Insomniaint.pythonanywhere.com/get';
+
+        var url = Uri.parse(base_url);
+
+        var msg = jsonEncode("off");
+        var ret = await http.Client().post(url, body: msg);
+
+        print(ret);
+      }
+    }
+  }
 }
