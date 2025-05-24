@@ -6,6 +6,8 @@ import 'package:example/graph.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'profile.dart';
+
 class HomePage extends StatefulWidget {
   const HomePage({super.key});
 
@@ -45,7 +47,7 @@ class _HomePageState extends State<HomePage> {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
       ylist0 =
-          (prefs.getStringList('ylist0') ?? ['0', '0', '0', '0', '0', '0', '0'])
+          (prefs.getStringList('ylist0') ?? ['1', '2', '3', '2', '3', '1', '1', '3', '3', '1', '3', '2'])
               .map((e) => double.parse(e))
               .toList();
       xlist0 =
@@ -54,7 +56,7 @@ class _HomePageState extends State<HomePage> {
               .toList();
 
       ylist1 =
-          (prefs.getStringList('ylist1') ?? ['0', '0', '0', '0', '0', '0', '0'])
+          (prefs.getStringList('ylist1') ?? ['3', '2', '1', '2', '3', '2', '3', '3', '1', '1', '1', '2'])
               .map((e) => double.parse(e))
               .toList();
       xlist1 =
@@ -62,7 +64,7 @@ class _HomePageState extends State<HomePage> {
               .map((e) => double.parse(e))
               .toList();
       ylist2 =
-          (prefs.getStringList('ylist2') ?? ['0', '0', '0', '0', '0', '0', '0'])
+          (prefs.getStringList('ylist2') ?? ['2', '2', '1', '2', '3', '1', '3', '2', '1', '1', '2', '2'])
               .map((e) => double.parse(e))
               .toList();
       xlist2 =
@@ -111,7 +113,12 @@ class _HomePageState extends State<HomePage> {
               //função de refresh
               //send();
               //atualiza os dados
-              setState(() {});
+              setState(() {
+                 ylist0 = [1, 2, 3, 2, 3, 1, 1, 3, 3, 1, 3, 2];
+                 ylist1 = [3, 2, 1, 2, 3, 2, 3, 3, 1, 1, 1, 2];
+                 ylist2 = [2, 2, 1, 2, 3, 1, 3, 2, 1, 1, 2, 2];
+
+              });
 
               //guarda os dados entre sessões
               _editVector();
@@ -149,6 +156,7 @@ class _HomePageState extends State<HomePage> {
                         ),
 
                         content: Row(
+                          mainAxisAlignment: MainAxisAlignment.spaceBetween,
                           children: [
                             //selecionar gráfico de há 3 noites
                             TextButton(
@@ -158,7 +166,7 @@ class _HomePageState extends State<HomePage> {
                                   xlist_atual = xlist2;
                                 });
                               },
-                              child: Text("3 Nights Ago"),
+                              child: Text("3 Nights\n Ago", textAlign: TextAlign.center,),
                             ),
 
                             //selecionar gráfico de há 3 noites
@@ -169,7 +177,7 @@ class _HomePageState extends State<HomePage> {
                                   xlist_atual = xlist1;
                                 });
                               },
-                              child: Text("2 Nights Ago"),
+                              child: Text("2 Nights\n Ago", textAlign: TextAlign.center,),
                             ),
 
                             //selecionar gráfico de há 3 noites
@@ -180,7 +188,7 @@ class _HomePageState extends State<HomePage> {
                                   xlist_atual = xlist0;
                                 });
                               },
-                              child: Text("Last Night"),
+                              child: Text("Last\n Night", textAlign: TextAlign.center,),
                             ),
                           ],
                         ),
@@ -300,7 +308,13 @@ class _HomePageState extends State<HomePage> {
 
           //Terceiro Botão
           GestureDetector(
-            onTap: () {},
+            onTap: () {
+              Navigator.push(
+              context,
+               MaterialPageRoute(builder: (context) => Profile())
+               );
+
+            },
             child: Container(
               width: 300,
               height: 75,
