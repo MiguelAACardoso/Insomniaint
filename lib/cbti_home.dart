@@ -22,8 +22,8 @@ class _Home_cbtiState extends State<Home_cbti> {
 
             Container(
               width: 300,
-              height: 250,
-              margin: EdgeInsets.only(bottom: 50, top: 50),
+              height: 260,
+              margin: EdgeInsets.only(bottom: 30, top: 30),
               padding: EdgeInsets.only(top: 20, bottom: 20, left: 20, right: 20),
               decoration: BoxDecoration(
                 color: Color(0xFFD3D1E8),
@@ -34,16 +34,22 @@ class _Home_cbtiState extends State<Home_cbti> {
                 children: [
 
                   Center(
-                    child: Text(
-                      "What is CBT-I?",
-                      style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold
+                    child: Container(
+                      margin: EdgeInsets.only(bottom: 16),
+                      child: Text(
+                        "What is CBT-I?",
+                        style: TextStyle(
+                          fontSize: 20,
+                          fontWeight: FontWeight.bold
+                        ),
                       ),
                     ),
                   ),
 
-                  Text("\nasdvfdb\n asdfsvdbg"),
+                  Text(
+                  '''CBT-i - Cognitive Behavioral Therapy for Insomnia - is a non-medication treatment of insomnia that is based on scientific knowledge about sleep. 
+                  The goals of CBT-i are to help you fall asleep, stay asleep, and improve your daytime functioning as a result of better sleep at night''',
+                  textAlign: TextAlign.justify,),
                 ],
               ),
             ),

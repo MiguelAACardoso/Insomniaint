@@ -1,7 +1,7 @@
 import 'package:example/cbti_home.dart';
 import 'package:example/functions.dart';
+import 'package:example/graph.dart';
 import 'package:flutter/material.dart';
-import 'package:fl_chart/fl_chart.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class HomePage extends StatefulWidget {
@@ -14,33 +14,72 @@ class HomePage extends StatefulWidget {
 class _HomePageState extends State<HomePage> {
   TimeOfDay? time;
 
-  List<double> ylist = [1, 2, 3, 4, 3, 2, 4];
-  List<double> xlist = [22, 23, 0, 1, 2, 3, 4];
+  //Guarda os valores da noite passada
+  List<double> ylist0 = [1, 2, 3, 2, 3, 1, 1, 3, 3, 1, 3, 2];
+  List<double> xlist0 = [22, 23, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
 
-  //Guardar os dados entre sessões
+  //Guarda os valores da noite de anteontem
+  List<double> ylist1 = [3, 2, 1, 2, 3, 2, 3, 3, 1, 1, 1, 2];
+  List<double> xlist1 = [22, 23, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+  //Guarda os valores da noite de há 3 dias atrás
+  List<double> ylist2 = [2, 2, 1, 2, 3, 1, 3, 2, 1, 1, 2, 2];
+  List<double> xlist2 = [22, 23, 0, 1, 2, 3, 4, 5, 6, 7, 8, 9];
+
+  //vetores para o gráfico que está a ser mostrado
+  List<double> ylist_atual = [];
+  List<double> xlist_atual = [];
+
+  //Inicializa os vetores com os valores da sessão passada
   @override
   void initState() {
     super.initState();
     _loadVector();
   }
 
-
+  //vai buscar os valores da outra sessão
   Future<void> _loadVector() async {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
-      ylist = (prefs.getStringList('ylist') ?? ['0', '0','0','0','0','0','0']).map((e) => double.parse(e)).toList();
-      xlist = (prefs.getStringList('xlist') ?? ['0', '0','0','0','0','0','0']).map((e) => double.parse(e)).toList();
+      ylist0 =
+          (prefs.getStringList('ylist0') ?? ['0', '0', '0', '0', '0', '0', '0'])
+              .map((e) => double.parse(e))
+              .toList();
+      xlist0 =
+          (prefs.getStringList('xlist0') ?? ['0', '0', '0', '0', '0', '0', '0'])
+              .map((e) => double.parse(e))
+              .toList();
 
+      ylist1 =
+          (prefs.getStringList('ylist1') ?? ['0', '0', '0', '0', '0', '0', '0'])
+              .map((e) => double.parse(e))
+              .toList();
+      xlist1 =
+          (prefs.getStringList('xlist1') ?? ['0', '0', '0', '0', '0', '0', '0'])
+              .map((e) => double.parse(e))
+              .toList();
+      ylist2 =
+          (prefs.getStringList('ylist2') ?? ['0', '0', '0', '0', '0', '0', '0'])
+              .map((e) => double.parse(e))
+              .toList();
+      xlist2 =
+          (prefs.getStringList('xlist2') ?? ['0', '0', '0', '0', '0', '0', '0'])
+              .map((e) => double.parse(e))
+              .toList();
     });
   }
 
+  //guarda os valores para futuras sessões
   Future<void> _editVector() async {
     final prefs = await SharedPreferences.getInstance();
 
     setState(() {
-      prefs.setStringList('ylist', ylist.map((e) => e.toString()).toList());
-      prefs.setStringList('xlist', ylist.map((e) => e.toString()).toList());
-
+      prefs.setStringList('ylist0', ylist0.map((e) => e.toString()).toList());
+      prefs.setStringList('xlist0', xlist0.map((e) => e.toString()).toList());
+      prefs.setStringList('ylist1', ylist1.map((e) => e.toString()).toList());
+      prefs.setStringList('xlist1', xlist1.map((e) => e.toString()).toList());
+      prefs.setStringList('ylist2', ylist2.map((e) => e.toString()).toList());
+      prefs.setStringList('xlist2', xlist2.map((e) => e.toString()).toList());
     });
   }
 
@@ -48,26 +87,32 @@ class _HomePageState extends State<HomePage> {
   Widget build(BuildContext context) {
     return Scaffold(
       backgroundColor: Color(0xFF6D7DB2),
+
+      //App bar: Contém o botão que dá refresh aos dados gráfico. Só os atualiza se forem diferentes
       appBar: AppBar(
         backgroundColor: Color(0xFF6D7DB2),
-        //botão da appbar para dar refresh do gráfico
         actionsPadding: EdgeInsets.only(right: 15),
+
         actions: [
+          //botão
           IconButton(
             onPressed: () async {
-              send();
+              //função de refresh
+              //send();
 
-              setState(() {
-                ylist = [1, 1, 0, 0, 0, 0, 0];
-                
-              });
-              
+              //atualiza os dados
+              setState(() {});
+
+              //guarda os dados entre sessões
               _editVector();
             },
+
             icon: Icon(Icons.refresh),
           ),
         ],
       ),
+
+      //coluna que contém o gráfico e os botões
       body: Column(
         mainAxisAlignment: MainAxisAlignment.start,
         children: [
@@ -78,42 +123,69 @@ class _HomePageState extends State<HomePage> {
             padding: EdgeInsets.only(top: 16, left: 10, right: 30),
             decoration: BoxDecoration(color: Color(0xFFD3D1E8)),
             margin: EdgeInsets.only(top: 50, bottom: 80),
-            child: Container(
-              child: LineChart(
-                LineChartData(
-                  maxY: 5,
-                  titlesData: FlTitlesData(
-                    topTitles: AxisTitles(
-                      sideTitles: SideTitles(showTitles: false),
-                    ),
-                    rightTitles: AxisTitles(
-                      sideTitles: SideTitles(showTitles: false),
-                    ),
-                    leftTitles: AxisTitles(
-                      sideTitles: SideTitles(
-                        interval: 1,
-                        reservedSize: 35,
-                        showTitles: true,
-                        getTitlesWidget: (double value, TitleMeta meta) {
-                          return switch (value) {
-                            1 => Text("N3"),
-                            2 => Text("N3"),
-                            3 => Text("N1"),
-                            4 => Text("REM"),
 
-                            _ => Text(""),
-                          };
-                        },
+            //Gráfico está dentro de um Gesture Detector para que se possa carregar nele e selecionar os outros
+            child: GestureDetector(
+              //O que faz quando se carrega nele
+              onTap: () {
+                showDialog(
+                  context: context,
+                  builder:
+                      (context) => AlertDialog(
+                        alignment: Alignment.lerp(
+                          Alignment.center,
+                          Alignment.bottomCenter,
+                          0.1,
+                        ),
+
+                        content: Row(
+                          children: [
+                            //selecionar gráfico de há 3 noites
+                            TextButton(
+                              onPressed: () {
+                                setState(() {
+                                  ylist_atual = ylist2;
+                                  xlist_atual = xlist2;
+                                });
+                              },
+                              child: Text("3 Nights Ago"),
+                            ),
+
+                            //selecionar gráfico de há 3 noites
+                            TextButton(
+                              onPressed: () {
+                                setState(() {
+                                  ylist_atual = ylist1;
+                                  xlist_atual = xlist1;
+                                });
+                              },
+                              child: Text("2 Nights Ago"),
+                            ),
+
+                            //selecionar gráfico de há 3 noites
+                            TextButton(
+                              onPressed: () {
+                                setState(() {
+                                  ylist_atual = ylist0;
+                                  xlist_atual = xlist0;
+                                });
+                              },
+                              child: Text("Last Night"),
+                            ),
+                          ],
+                        ),
+
+                        backgroundColor: Color(0xFFD3D1E8),
                       ),
-                    ),
-                  ),
-                  lineBarsData: [
-                    LineChartBarData(
-                      dotData: FlDotData(show: false),
-                      spots: gera_lista_pontos(xlist, ylist),
-                    ),
-                  ],
-                ),
+                );
+              },
+
+              child: Container(
+                //gráfico
+                child:
+                    ylist_atual.length == 0
+                        ? Graph(xlist: xlist0, ylist: ylist0)
+                        : Graph(xlist: xlist_atual, ylist: ylist_atual),
               ),
             ),
           ),
@@ -124,15 +196,20 @@ class _HomePageState extends State<HomePage> {
               //Primeiro botão
               GestureDetector(
                 onTap: () async {
+                  //seleciona o tempo
                   var a = await select_time(context);
 
+                  //atualiza a variável que guarda as horas
                   setState(() {
                     time = a;
-                    print(time!.hour);
-                    print(time!.minute);
+                    if (time != null) {
+                      post_time(time!);
+                      print(time!);
+                    }
                   });
                 },
 
+                //aparência do botão
                 child: Container(
                   margin: EdgeInsets.only(right: 15),
                   height: 155,
@@ -169,12 +246,14 @@ class _HomePageState extends State<HomePage> {
               //Segundo botão
               GestureDetector(
                 onTap: () {
+                  //viaja para a próxima página
                   Navigator.push(
                     context,
                     MaterialPageRoute(builder: (context) => Home_cbti()),
                   );
                 },
 
+                //Aparência do botão
                 child: Container(
                   margin: EdgeInsets.only(left: 15),
                   height: 155,
@@ -210,6 +289,7 @@ class _HomePageState extends State<HomePage> {
             ],
           ),
 
+          //Terceiro Botão
           GestureDetector(
             onTap: () {},
             child: Container(

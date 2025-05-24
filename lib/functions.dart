@@ -28,7 +28,7 @@ Future<dynamic> send() async {
   print("asdfsgdhfjgkhlj");
   var x = base64Decode(resposta['imagem']);*/
 
-  print(ret.body);
+  //print(ret.body);
   return ret;
 }
 
@@ -43,4 +43,16 @@ List<FlSpot> gera_lista_pontos(List<dynamic> xpoints, List<dynamic> ypoints) {
   ret_vec.add(FlSpot(ypoints.length - 1.toDouble(), ypoints.last));
 
   return ret_vec;
+}
+
+Future<dynamic> post_time(TimeOfDay time) async {
+  String base_url = 'http://Insomniaint.pythonanywhere.com/post_time';
+
+  var url = Uri.parse(base_url);
+
+  var data = {"hora": time.hour, "minuto": time.minute};
+  var msg = jsonEncode(data);
+
+  var ret = await http.Client().post(url, body: msg);
+
 }
