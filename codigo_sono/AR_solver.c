@@ -48,9 +48,6 @@ void BurgCoef(float* bpm_values, int size_bpm, float* coefs){
      }
      
      
-
-     
-     
      //calcular k2
      num = 0;
      den = 0;

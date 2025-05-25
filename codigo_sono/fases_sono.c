@@ -56,7 +56,7 @@ int Cluster_kmeans(float *coefs){
    
    
    //DEBUGGING
-   /*if(cluster_atr==0){
+   if(cluster_atr==0){
    	printf("sono pesado\n");
    }
    else if(cluster_atr==1){
@@ -64,7 +64,7 @@ int Cluster_kmeans(float *coefs){
    }
    else{
    	printf("acordado\n");
-   }*/
+   }
    
    return cluster_atr;
 
@@ -126,15 +126,11 @@ Classificar Sono
 
 int ClassificarSono(float *bpm_values, int size){
 
-    float *coefs = (float *)malloc(5 * sizeof(float));
     int fase;
-    if (coefs == NULL) {
-    	fprintf(stderr, "Erro ao alocar memória\n");
-        return -1;
-    }
+    float coefs[5];
     
-    BurgCoef(bpm_values, size-1, coefs);
-    fase = Cluster_kmeans(coefs);
+    BurgCoef(bpm_values, size-1, &coefs[0]);
+    fase = Cluster_kmeans(&coefs[0]);
     fase = Atualizacao_fase_passado(fase);
 
     //printf("coeficieintes: %f, %f erro: %f, media: %f, acc: %f\n", coefs[0], coefs[1], coefs[2], coefs[3], coefs[4]);
@@ -142,6 +138,11 @@ int ClassificarSono(float *bpm_values, int size){
 
     return fase;
 }
+
+
+//receber cenas e retornar aqui!!
+//vetores pls do tamanho 10 e aceleração apenas uma média no fim tipo assim:
+// {61.0, 62.0, 60.0, 61.0, 60.0, 62.0, 61.0, 60.0, 62.0, 60.0, 0.05}
 
 int main(int argc, char *argv[]){
     
