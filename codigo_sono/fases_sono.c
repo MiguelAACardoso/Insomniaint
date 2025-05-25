@@ -1,6 +1,7 @@
 #include <math.h>
 #include <stdio.h>
 #include <stdlib.h>
+#include <string.h>
 #include "Functions.h"
 
 //ESTES VALORES PODEM (E VÃO) SOFRER ALTERAÇÕES!!
@@ -15,12 +16,12 @@ float Cluster[3][5] = {
 //fase atual, fase anterior, fase anterior2
 //fase atual não tem que ser necessáriamente a fase calculado de forma termos trasnsição mais suave;
 
-int Fases_Sono[3] = {-1, -1, -1};
+int Fases_Sono[2] = {-1, -1};
     
 
 
 
-//idk if i wont need data training??
+
 /*******************************************************
 		Metodos de Classificação
 
@@ -53,7 +54,9 @@ int Cluster_kmeans(float *coefs){
    	}
    }
    
-   if(cluster_atr==0){
+   
+   //DEBUGGING
+   /*if(cluster_atr==0){
    	printf("sono pesado\n");
    }
    else if(cluster_atr==1){
@@ -61,7 +64,7 @@ int Cluster_kmeans(float *coefs){
    }
    else{
    	printf("acordado\n");
-   }
+   }*/
    
    return cluster_atr;
 
@@ -121,35 +124,34 @@ Classificar Sono
 *******************************************************/
 
 
-void ClassificarSono(float *bpm_values){
+int ClassificarSono(float *bpm_values, int size){
 
     float *coefs = (float *)malloc(5 * sizeof(float));
     int fase;
     if (coefs == NULL) {
     	fprintf(stderr, "Erro ao alocar memória\n");
-        return;
+        return -1;
     }
     
-    BurgCoef(bpm_values, 10, coefs);
+    BurgCoef(bpm_values, size-1, coefs);
     fase = Cluster_kmeans(coefs);
     fase = Atualizacao_fase_passado(fase);
 
     //printf("coeficieintes: %f, %f erro: %f, media: %f, acc: %f\n", coefs[0], coefs[1], coefs[2], coefs[3], coefs[4]);
    
 
-
-
-    return;
+    return fase;
 }
 
 int main(int argc, char *argv[]){
     
     
-    float dados[11] = {80.0, 81.0, 82.0, 84.0, 87.0, 83.0, 85.0, 86.0, 88.0, 85.0, 0.2};
-    ClassificarSono(dados);
+    float dados[11] = {61.0, 62.0, 60.0, 61.0, 60.0, 62.0, 61.0, 60.0, 62.0, 60.0, 0.05};
+    int fase = 0;
+    fase = ClassificarSono(dados, sizeof(dados)/sizeof(dados[0]));
     
 
-    return 0;
+    return fase+1;
 }
 
 
