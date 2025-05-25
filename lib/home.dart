@@ -1,6 +1,6 @@
 import 'dart:async';
 
-import 'package:example/cbti_home.dart';
+import 'package:example/cbti/cbti_home.dart';
 import 'package:example/functions.dart';
 import 'package:example/graph.dart';
 import 'package:flutter/material.dart';

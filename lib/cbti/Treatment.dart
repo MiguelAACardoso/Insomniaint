@@ -1,13 +1,13 @@
 import 'package:flutter/material.dart';
 
-class Benefits extends StatefulWidget {
-  const Benefits({super.key});
+class Treatment extends StatefulWidget {
+  const Treatment({super.key});
 
   @override
-  State<Benefits> createState() => _BenefitsState();
+  State<Treatment> createState() => _TreatmentState();
 }
 
-class _BenefitsState extends State<Benefits> {
+class _TreatmentState extends State<Treatment> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -21,7 +21,7 @@ class _BenefitsState extends State<Benefits> {
           children: [
             Container(
               width: 300,
-              height: 270,
+              height: 400,
               margin: EdgeInsets.only(bottom: 30, top: 30),
               padding: EdgeInsets.only(top: 20, bottom: 20, left: 20, right: 20),
               decoration: BoxDecoration(
@@ -36,7 +36,7 @@ class _BenefitsState extends State<Benefits> {
                     child: Container(
                       margin: EdgeInsets.only(bottom: 16),
                       child: Text(
-                        "CBT-I Benefits",
+                        "Treatment",
                         style: TextStyle(
                           fontSize: 20,
                           fontWeight: FontWeight.bold
@@ -46,7 +46,11 @@ class _BenefitsState extends State<Benefits> {
                   ),
               
                   Text(
-                  "",
+                  """Insomnia is treated with talk therapy or medication, or a combination of both. The most effective treatment for Insomnia is Cognitive Behavioral Therapy for Insomnia (CBTi). 
+                  
+                  This treatment focuses on retraining your body to sleep better through changing sleep related behaviors and thoughts. 
+                  
+                  If you suffer from Insomnia, please seek help from a medical professional trained in dealing with sleep problems.""",
                   textAlign: TextAlign.justify,),
                 ],
               ),
