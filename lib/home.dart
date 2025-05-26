@@ -18,6 +18,7 @@ class HomePage extends StatefulWidget {
 
 class _HomePageState extends State<HomePage> {
   TimeOfDay? time;
+  var compare = [0,0,0];
 
   //Guarda os valores da noite passada
   List<double> ylist0 = [1, 2, 3, 2, 3, 1, 1, 3, 3, 1, 3, 2];
@@ -117,8 +118,10 @@ class _HomePageState extends State<HomePage> {
 
               //atualiza os dados
               setState(() {
-                //só substitui os dados se os recentes forem diferentes dos da noite anterior
-                if (!listEquals(ylist0, tmp)) {
+                //sempre que se vai buscar os dados ao server, ele é modificado para  devolevr [0,0,0,]
+                //se não houver dados novos
+                //só substitui os dados se existirem dados novos no server
+                if (!listEquals(compare, tmp)) {
                   ylist2 = ylist1;
                   ylist1 = ylist0;
                   print(tmp);
