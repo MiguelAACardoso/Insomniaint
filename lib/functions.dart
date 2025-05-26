@@ -2,6 +2,7 @@ import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:http/http.dart' as http;
 import 'package:fl_chart/fl_chart.dart';
+import 'package:volume_controller/volume_controller.dart';
 
 Future<TimeOfDay?> select_time(dynamic context) async {
   TimeOfDay? time = await showTimePicker(
@@ -16,20 +17,18 @@ Future<TimeOfDay?> select_time(dynamic context) async {
   }
 }
 
-Future<dynamic> send() async {
-  String base_url = 'http://Insomniaint.pythonanywhere.com/get';
+Future<dynamic> get() async {
+  String base_url = 'http://Insomniaint.pythonanywhere.com/vector';
 
   var url = Uri.parse(base_url);
 
-  var msg = jsonEncode("off");
-  var ret = await http.Client().post(url, body: msg);
+  var ret = await http.Client().get(url);
 
-  /*var resposta = jsonDecode(ret.body);
-  print("asdfsgdhfjgkhlj");
-  var x = base64Decode(resposta['imagem']);*/
+  var data = jsonDecode(ret.body);
 
-  //print(ret.body);
-  return ret;
+  print(data);
+
+  return data;
 }
 
 List<FlSpot> gera_lista_pontos(List<dynamic> xpoints, List<dynamic> ypoints) {
@@ -52,35 +51,27 @@ Future<dynamic> post_time(TimeOfDay time) async {
 
   var msg = jsonEncode("${time.hour} ${time.minute}");
 
-  var ret = await http.Client().post(url, body: msg);
+  await http.Client().post(url, body: msg);
 
   //print(ret.body);
 }
 
-//já não deve ser preciso mas vou deixar aqui just in case
-void Check_timer(mod, TimeOfDay time) async {
-  //tempo atual
-  TimeOfDay tempo_atual = TimeOfDay.now();
 
-  //se já se tiver selecionado um valor
-  if (mod == 0) {
-    return;
+void get_and_set_volume() async {
+  String base_url = 'http://Insomniaint.pythonanywhere.com/sound';
+
+  var url = Uri.parse(base_url);
+  var ret = await http.Client().get(url);
+  var data = jsonDecode(ret.body);
+  print(data);
+
+  //light sleep
+  if (data == 0) {
+    await VolumeController.instance.setVolume(0.0);
   }
 
-  if (mod == 1) {
-    if (time.hour <= tempo_atual.hour) {
-      int tmp = time.minute - tempo_atual.minute;
-
-      if (tmp <= 30) {
-        String base_url = 'http://Insomniaint.pythonanywhere.com/get';
-
-        var url = Uri.parse(base_url);
-
-        var msg = jsonEncode("off");
-        var ret = await http.Client().post(url, body: msg);
-
-        print(ret);
-      }
-    }
+  //deep sleep
+  if (data == 1) {
+    //await VolumeController.instance.setVolume(0.0);
   }
 }

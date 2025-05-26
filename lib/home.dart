@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:example/cbti/cbti_home.dart';
 import 'package:example/functions.dart';
 import 'package:example/graph.dart';
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
@@ -39,7 +40,7 @@ class _HomePageState extends State<HomePage> {
   void initState() {
     super.initState();
     _loadVector();
-    
+    control_volume();
   }
 
   //vai buscar os valores da outra sessão
@@ -47,7 +48,8 @@ class _HomePageState extends State<HomePage> {
     final prefs = await SharedPreferences.getInstance();
     setState(() {
       ylist0 =
-          (prefs.getStringList('ylist0') ?? ['1', '2', '3', '2', '3', '1', '1', '3', '3', '1', '3', '2'])
+          (prefs.getStringList('ylist0') ??
+                  ['1', '2', '3', '2', '3', '1', '1', '3', '3', '1', '3', '2'])
               .map((e) => double.parse(e))
               .toList();
       xlist0 =
@@ -56,7 +58,8 @@ class _HomePageState extends State<HomePage> {
               .toList();
 
       ylist1 =
-          (prefs.getStringList('ylist1') ?? ['3', '2', '1', '2', '3', '2', '3', '3', '1', '1', '1', '2'])
+          (prefs.getStringList('ylist1') ??
+                  ['3', '2', '1', '2', '3', '2', '3', '3', '1', '1', '1', '2'])
               .map((e) => double.parse(e))
               .toList();
       xlist1 =
@@ -64,7 +67,8 @@ class _HomePageState extends State<HomePage> {
               .map((e) => double.parse(e))
               .toList();
       ylist2 =
-          (prefs.getStringList('ylist2') ?? ['2', '2', '1', '2', '3', '1', '3', '2', '1', '1', '2', '2'])
+          (prefs.getStringList('ylist2') ??
+                  ['2', '2', '1', '2', '3', '1', '3', '2', '1', '1', '2', '2'])
               .map((e) => double.parse(e))
               .toList();
       xlist2 =
@@ -88,11 +92,9 @@ class _HomePageState extends State<HomePage> {
     });
   }
 
-  void get_api() {
+  void control_volume() {
     Timer.periodic(Duration(seconds: 5), (timer) {
-      setState(() {
-        print("aaaa");
-      });
+      get_and_set_volume();
     });
   }
 
@@ -111,13 +113,19 @@ class _HomePageState extends State<HomePage> {
           IconButton(
             onPressed: () async {
               //função de refresh
-              //send();
+              var tmp = await get();
+
               //atualiza os dados
               setState(() {
-                 ylist0 = [1, 2, 3, 2, 3, 1, 1, 3, 3, 1, 3, 2];
-                 ylist1 = [3, 2, 1, 2, 3, 2, 3, 3, 1, 1, 1, 2];
-                 ylist2 = [2, 2, 1, 2, 3, 1, 3, 2, 1, 1, 2, 2];
-
+                //só substitui os dados se os recentes forem diferentes dos da noite anterior
+                if (!listEquals(ylist0, tmp)) {
+                  ylist2 = ylist1;
+                  ylist1 = ylist0;
+                  print(tmp);
+                  ylist0 = (tmp as List).map((e) => (e as num).toDouble()).toList();
+                  ylist_atual = ylist0;
+                }
+                //ylist_atual = tmp;
               });
 
               //guarda os dados entre sessões
@@ -166,7 +174,10 @@ class _HomePageState extends State<HomePage> {
                                   xlist_atual = xlist2;
                                 });
                               },
-                              child: Text("3 Nights\n Ago", textAlign: TextAlign.center,),
+                              child: Text(
+                                "3 Nights\n Ago",
+                                textAlign: TextAlign.center,
+                              ),
                             ),
 
                             //selecionar gráfico de há 3 noites
@@ -177,7 +188,10 @@ class _HomePageState extends State<HomePage> {
                                   xlist_atual = xlist1;
                                 });
                               },
-                              child: Text("2 Nights\n Ago", textAlign: TextAlign.center,),
+                              child: Text(
+                                "2 Nights\n Ago",
+                                textAlign: TextAlign.center,
+                              ),
                             ),
 
                             //selecionar gráfico de há 3 noites
@@ -188,7 +202,10 @@ class _HomePageState extends State<HomePage> {
                                   xlist_atual = xlist0;
                                 });
                               },
-                              child: Text("Last\n Night", textAlign: TextAlign.center,),
+                              child: Text(
+                                "Last\n Night",
+                                textAlign: TextAlign.center,
+                              ),
                             ),
                           ],
                         ),
@@ -310,10 +327,9 @@ class _HomePageState extends State<HomePage> {
           GestureDetector(
             onTap: () {
               Navigator.push(
-              context,
-               MaterialPageRoute(builder: (context) => Profile())
-               );
-
+                context,
+                MaterialPageRoute(builder: (context) => Profile()),
+              );
             },
             child: Container(
               width: 300,
