@@ -44,8 +44,8 @@ List<FlSpot> gera_lista_pontos(List<dynamic> xpoints, List<dynamic> ypoints) {
   return ret_vec;
 }
 
-Future<dynamic> post_time(TimeOfDay time) async {
-  String base_url = 'http://Insomniaint.pythonanywhere.com/post_time';
+Future<dynamic> post_wake_time(TimeOfDay time) async {
+  String base_url = 'http://Insomniaint.pythonanywhere.com/post_wake_time';
 
   var url = Uri.parse(base_url);
 
@@ -53,8 +53,21 @@ Future<dynamic> post_time(TimeOfDay time) async {
 
   await http.Client().post(url, body: msg);
 
-  //print(ret.body);
 }
+
+
+
+Future<dynamic> post_sleep_time(TimeOfDay time) async {
+  String base_url = 'http://Insomniaint.pythonanywhere.com/post_sleep_time';
+
+  var url = Uri.parse(base_url);
+
+  var msg = jsonEncode("${time.hour} ${time.minute}");
+
+  await http.Client().post(url, body: msg);
+
+}
+
 
 
 void get_and_set_volume() async {
@@ -63,7 +76,6 @@ void get_and_set_volume() async {
   var url = Uri.parse(base_url);
   var ret = await http.Client().get(url);
   var data = jsonDecode(ret.body);
-  print(data);
 
   //light sleep
   if (data == 0) {
