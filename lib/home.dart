@@ -17,7 +17,9 @@ class HomePage extends StatefulWidget {
 }
 
 class _HomePageState extends State<HomePage> {
-  TimeOfDay? time;
+  TimeOfDay? wake_time;
+  TimeOfDay? sleep_time;
+
 
   //Guarda os valores da noite passada
   List<double> ylist0 = [1, 2, 3, 2, 3, 1, 1, 3, 3, 1, 3, 2];
@@ -122,7 +124,8 @@ class _HomePageState extends State<HomePage> {
                   ylist2 = ylist1;
                   ylist1 = ylist0;
                   print(tmp);
-                  ylist0 = (tmp as List).map((e) => (e as num).toDouble()).toList();
+                  ylist0 =
+                      (tmp as List).map((e) => (e as num).toDouble()).toList();
                   ylist_atual = ylist0;
                 }
                 //ylist_atual = tmp;
@@ -231,16 +234,64 @@ class _HomePageState extends State<HomePage> {
               //Primeiro botão
               GestureDetector(
                 onTap: () async {
-                  //seleciona o tempo
-                  var a = await select_time(context);
+                  showDialog(
+                    context: context,
+                    builder: (context) => AlertDialog(
 
-                  //atualiza a variável que guarda as horas
-                  setState(() {
-                    time = a;
-                    if (time != null) {
-                      post_time(time!);
-                    }
-                  });
+                      alignment: Alignment.center,
+
+                      content: Row(
+                        mainAxisAlignment: MainAxisAlignment.spaceBetween,
+
+                        children: [
+
+                        //botao de wake time
+                        TextButton(
+                              onPressed: () async {
+                              //seleciona o tempo de acordar
+                                var a = await select_time(context);
+
+                                //atualiza a variável que guarda as horas
+                                setState(() {
+                                  wake_time = a;
+                                  if (wake_time != null) {
+                                    post_wake_time(wake_time!);
+                                  }
+                                });
+                              
+                              },
+                              child: Text(
+                                "Wake up time",
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+
+                            //botao de sleep time
+                            TextButton(
+                             onPressed: () async {
+                              //seleciona o tempo de acordar
+                                var b = await select_time(context);
+
+                                //atualiza a variável que guarda as horas
+                                setState(() {
+                                  sleep_time = b;
+                                  if (sleep_time != null) {
+                                    post_sleep_time(sleep_time!);
+                                  }
+                                });
+                              
+                              },
+                              child: Text(
+                                "Sleep time",
+                                textAlign: TextAlign.center,
+                              ),
+                            ),
+                          ]
+                      ),
+
+                    ),
+                  );
+                  
                 },
 
                 //aparência do botão
