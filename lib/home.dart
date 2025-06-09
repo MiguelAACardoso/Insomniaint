@@ -7,6 +7,7 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import 'help.dart';
 import 'profile.dart';
 
 class HomePage extends StatefulWidget {
@@ -140,6 +141,17 @@ class _HomePageState extends State<HomePage> {
 
             icon: Icon(Icons.refresh),
           ),
+
+          IconButton(
+            onPressed: () {
+             Navigator.push(
+                    context,
+                    MaterialPageRoute(builder: (context) => Help_Page()),
+                  );
+            },
+
+            icon: Icon(Icons.help),
+          )
         ],
       ),
 
